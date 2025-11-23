@@ -1,5 +1,7 @@
 # DNA base pairing: a <-> t, c <-> g
 
+import sys
+
 # Define base pair mapping
 pair = {
     'a': 't',
@@ -8,18 +10,40 @@ pair = {
     'g': 'c'
 }
 
-def get_valid_sequence():
-    """Prompt the user until a valid DNA sequence (a, t, g, c) is provided."""
+def get_valid_sequence(interactive: bool = True):
+    """Get a valid DNA sequence from the user or from piped stdin.
+
+    If `interactive` is False the function will read a single line from
+    stdin (useful for piping) and return it (after validation).
+    """
     while True:
-        raw = input("Enter a DNA sequence (letters a, t, g, c): ")
+        if interactive:
+            try:
+                raw = input("Enter a DNA sequence (letters a, t, g, c): ")
+            except EOFError:
+                raw = ''
+        else:
+            # Read one line from stdin when data is piped in
+            raw = sys.stdin.readline()
+            if raw is None:
+                raw = ''
+            # Do not prompt when reading from pipe; just strip trailing newline
+            raw = raw.rstrip('\n')
+
         seq = raw.strip().replace(" ", "")
         if not seq:
-            print("Empty input. Please enter at least one base (a, t, g, c).")
-            continue
+            if interactive:
+                print("Empty input. Please enter at least one base (a, t, g, c).")
+                continue
+            # In non-interactive mode, return empty to allow caller to handle it
+            return ''
+
         invalid = sorted(set(ch for ch in seq if ch.lower() not in pair))
         if invalid:
             print(f"Invalid characters found: {', '.join(invalid)}. Please use only a, t, g, c.")
-            continue
+            if interactive:
+                continue
+            return ''
         return seq
 
 def complement_sequence(seq: str) -> str:
@@ -34,11 +58,23 @@ def complement_sequence(seq: str) -> str:
     return ''.join(out)
 
 def main():
+    interactive = sys.stdin.isatty()
     while True:
-        seq = get_valid_sequence()
+        seq = get_valid_sequence(interactive=interactive)
+        if not seq:
+            # No valid input (or EOF) in non-interactive mode: exit gracefully
+            if not interactive:
+                return
+            # In interactive mode, loop back to prompt again
+            continue
+
         comp = complement_sequence(seq)
         print(f"Original sequence: {seq}")
         print(f"Complementary sequence: {comp}")
+
+        if not interactive:
+            # When input was piped, process only the first sequence then exit
+            return
 
         # Ask the user whether they want to enter another sequence
         while True:
