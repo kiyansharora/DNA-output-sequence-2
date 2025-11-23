@@ -1,6 +1,7 @@
 # DNA base pairing: a <-> t, c <-> g
 
 import sys
+import os
 
 # Define base pair mapping
 pair = {
@@ -31,6 +32,12 @@ def get_valid_sequence(interactive: bool = True):
             raw = raw.rstrip('\n')
 
         seq = raw.strip().replace(" ", "")
+        # Optional debug: show raw input details when DNA_DEBUG env var is set
+        if os.environ.get('DNA_DEBUG') == '1':
+            print('DEBUG raw repr:', repr(raw))
+            print('DEBUG seq repr :', repr(seq))
+            flags = [(ch, ord(ch), ch.isupper()) for ch in raw]
+            print('DEBUG raw chars :', flags)
         if not seq:
             if interactive:
                 print("Empty input. Please enter at least one base (a, t, g, c).")
