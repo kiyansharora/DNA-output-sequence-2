@@ -16,3 +16,6 @@ if base in pair:
     print(f"The pair for {base} is {pair[base]}")
 else:
     print("Invalid input. Please enter a, t, g, or c.")
+
+# 1. allow constant sequnce of number
+# 2. if incorrect input allow user to correct it
