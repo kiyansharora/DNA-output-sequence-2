@@ -31,10 +31,12 @@ def complement_sequence(seq: str) -> str:
     comp = []
     for ch in seq:
         base = pair[ch]
-        if base in ('c', 'g'):
+        if base == 'c' or base == 'g':
             comp.append(base.upper())
-        else:
+        elif base == 'a' or base == 't':
             comp.append(base.lower())
+        else:
+            comp.append(base)
     return ''.join(comp)
 
 def main():
