@@ -27,7 +27,15 @@ def get_valid_sequence():
         return seq
 
 def complement_sequence(seq: str) -> str:
-    return ''.join(pair[ch] for ch in seq)
+    # C and G (triple bond) as uppercase, A and T (double bond) as lowercase
+    comp = []
+    for ch in seq:
+        base = pair[ch]
+        if base in ('c', 'g'):
+            comp.append(base.upper())
+        else:
+            comp.append(base.lower())
+    return ''.join(comp)
 
 def main():
     print("\n=== DNA Complement ===")
