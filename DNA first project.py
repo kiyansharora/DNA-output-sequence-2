@@ -31,6 +31,9 @@ def complement_sequence(seq: str) -> str:
     return ''.join(pair[ch] for ch in seq)
 
 def main():
+    print("\n=== DNA Complement Sequence Generator ===")
+    print("Enter a DNA sequence (a, t, g, c) to see its complement.")
+    print("Tip: Type 'quit' at any time to exit.\n")
     while True:
         seq = get_valid_sequence()
         if seq is None:
