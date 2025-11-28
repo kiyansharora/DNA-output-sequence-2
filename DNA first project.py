@@ -14,7 +14,7 @@ def get_valid_sequence():
     Returns the sequence if valid, or None if the user types 'quit'.
     """
     while True:
-        seq = input("Enter a DNA sequence (letters a, t, g, c): ").lower().replace(" ", "")
+        seq = input("Enter a DNA sequence (a, t, g, c) or type 'quit' to exit: ").lower().replace(" ", "")
         if seq == 'quit':
             return None
         if not seq:
@@ -22,7 +22,8 @@ def get_valid_sequence():
             continue
         invalid = sorted(set(ch for ch in seq if ch not in pair))
         if invalid:
-            print(f"Invalid characters found: {', '.join(invalid)}. Please use only a, t, g, c. (Type 'quit' to exit)")
+            print(f"Invalid characters found: {', '.join(invalid)}. Please use only a, t, g, c.")
+            print(">>> Type 'quit' to exit <<<")
             continue
         return seq
 
