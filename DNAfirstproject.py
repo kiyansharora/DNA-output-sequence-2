@@ -17,7 +17,6 @@ def get_dna_sequence():
         if seq == 'quit':
             seq = None
             break
-        
         if not seq:
             print("Empty input. Try again.")
             continue
@@ -71,8 +70,6 @@ def main():
                 print("Goodbye!")
                 return
             print("Type 'y' or 'n'")
-
-
 
 if __name__ == '__main__':
     main()
