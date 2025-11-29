@@ -7,12 +7,16 @@ pair = {
     'g': 'c'
 }
 
-def get_valid_sequence():
+    
+def get_dna_sequence():
+    seq = None   # placeholder to store the result
+    
     while True:
         seq = input("Enter DNA sequence (a,t,g,c) or 'quit': ").lower().replace(" ", "")
         
         if seq == 'quit':
-            return None
+            seq = None
+            break
         
         if not seq:
             print("Empty input. Try again.")
@@ -24,7 +28,11 @@ def get_valid_sequence():
             print("Type 'quit' to exit")
             continue
         
-        return seq
+        # valid sequence found → break out of loop
+        break
+    
+    return seq
+
 
 def complement_sequence(seq: str) -> str:
 
